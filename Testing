@@ -18,13 +18,34 @@ def getActiveWindow():
             return(appInfo)
         elif "Google Docs" in appInfo:
             return(appInfo)
+        elif "Twitch" in appInfo:
+            return(appInfo)
         else:
             return(application)
     else:
         return(application)
 
-def main():
-    while(True):
-        print(getActiveWindow())
+def addProcesses(processes):
+    c = 1
+    activeWindow = getActiveWindow()
+    for i in range(len(processes)):
+        if activeWindow in processes[i][0]:
+            c = 0
+            processes[i][1] += int(timer(activeWindow))
+    if c == 1:
+        processes.append([activeWindow,timer(activeWindow)])
+    return(processes)
 
+def timer(activeWindow):
+    start = time.time()
+    while activeWindow == getActiveWindow():
+       pass
+    end = time.time()
+    elapsedTime = end - start
+    return(elapsedTime)
+
+def main():
+    processes = []
+    while(True):
+        getActiveWindow()
 main()

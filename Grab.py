@@ -2,6 +2,8 @@ from datetime import datetime
 import numpy
 from win32gui import GetWindowText, GetForegroundWindow
 import time
+import json
+
 
 def getActiveWindow():
     currTask = GetWindowText(GetForegroundWindow())
@@ -18,6 +20,8 @@ def getActiveWindow():
             return(appInfo)
         elif "Google Docs" in appInfo:
             return(appInfo)
+        elif "Twitch" in appInfo:
+            return(appInfo)
         else:
             return(application)
     else:
@@ -29,13 +33,12 @@ def addProcesses(processes):
     for i in range(len(processes)):
         if activeWindow in processes[i][0]:
             c = 0
-            processes[i][1] += int(timer())
+            processes[i][1] += int(timer(activeWindow))
     if c == 1:
-        processes.append([activeWindow,timer()])
+        processes.append([activeWindow,timer(activeWindow)])
     return(processes)
 
-def timer():
-    activeWindow = getActiveWindow()
+def timer(activeWindow):
     start = time.time()
     while activeWindow == getActiveWindow():
        pass
@@ -45,9 +48,15 @@ def timer():
     
 def main():
     i = 0
-    processes = []
+    logFile = open("E:\Website\Projects\ScreenTime\log.txt", "r")
+    stringProcesses = logFile.read()
+    logFile.close()
+    processes = eval(stringProcesses)
     while(True):
-        print(addProcesses(processes))
+        addProcesses(processes)
+        logFile = open("E:\Website\Projects\ScreenTime\log.txt","w")
+        logFile.write(str(processes))
+
 
 main()
 
