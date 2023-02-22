@@ -2,8 +2,6 @@ from datetime import datetime
 import numpy
 from win32gui import GetWindowText, GetForegroundWindow
 import time
-import json
-
 
 def getActiveWindow():
     currTask = GetWindowText(GetForegroundWindow())
@@ -45,18 +43,9 @@ def timer(activeWindow):
     end = time.time()
     elapsedTime = end - start
     return(elapsedTime)
-    
+
 def main():
-    i = 0
-    logFile = open("E:\Website\Projects\ScreenTime\log.txt", "r")
-    stringProcesses = logFile.read()
-    logFile.close()
-    processes = eval(stringProcesses)
+    processes = []
     while(True):
-        addProcesses(processes)
-        logFile = open("E:\Website\Projects\ScreenTime\log.txt","w")
-        logFile.write(str(processes))
-
-
+        getActiveWindow()
 main()
-
