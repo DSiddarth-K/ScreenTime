@@ -23,31 +23,8 @@ def getActiveWindow():
     else:
         return(application)
 
-def addProcesses(processes):
-    c = 1
-    activeWindow = getActiveWindow()
-    for i in range(len(processes)):
-        if activeWindow in processes[i][0]:
-            c = 0
-            processes[i][1] += int(timer())
-    if c == 1:
-        processes.append([activeWindow,timer()])
-    return(processes)
-
-def timer():
-    activeWindow = getActiveWindow()
-    start = time.time()
-    while activeWindow == getActiveWindow():
-       pass
-    end = time.time()
-    elapsedTime = end - start
-    return(elapsedTime)
-    
 def main():
-    i = 0
-    processes = []
     while(True):
-        print(addProcesses(processes))
+        print(getActiveWindow())
 
 main()
-
