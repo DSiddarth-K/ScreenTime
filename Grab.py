@@ -2,7 +2,7 @@ from datetime import datetime
 import numpy
 from win32gui import GetWindowText, GetForegroundWindow
 import time
-import json
+import matplotlib.pyplot as plt
 
 
 def getActiveWindow():
@@ -46,17 +46,37 @@ def timer(activeWindow):
     elapsedTime = end - start
     return(elapsedTime)
     
-def main():
+def track():
     i = 0
     logFile = open("E:\Website\Projects\ScreenTime\log.txt", "r")
     stringProcesses = logFile.read()
     logFile.close()
-    processes = eval(stringProcesses)
+    if("[" in stringProcesses):
+        processes = eval(stringProcesses)
+    else:
+        processes = []
     while(True):
         addProcesses(processes)
         logFile = open("E:\Website\Projects\ScreenTime\log.txt","w")
         logFile.write(str(processes))
 
+def plot():
+    bars = []
+    height = []
+    logFile = open("E:\Website\Projects\ScreenTime\log.txt", "r")
+    stringProcesses = logFile.read()
+    logFile.close()
+    processes = eval(stringProcesses)
+    for i in range(len(processes)):
+        bars.append(processes[i][0])
+        height.append(processes[i][1])
+    y_pos = numpy.arange(len(bars))
+    plt.bar(y_pos,height)
+    plt.xticks(y_pos, bars)
+    plt.draw()
+
+def main():
+    track()
 
 main()
 
